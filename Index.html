@@ -1,0 +1,55 @@
+<!DOCTYPE html><html>
+<head>
+  <title>Notification Token Collector</title>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #tokenBox {
+      margin-top: 20px;
+      word-break: break-all;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔔 Allow Notification to Get Your Token</h1>
+  <button onclick="requestToken()">Enable Notification</button>
+  <div id="tokenBox"></div>  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "3fed7203-1d7c-4173-9446-9e4636d0bdf1",
+      });
+    });
+
+    function requestToken() {
+      OneSignal.push(function() {
+        OneSignal.getUserId(function(userId) {
+          if (userId) {
+            document.getElementById("tokenBox").innerText = "Your Device Token: \n" + userId;
+            navigator.clipboard.writeText(userId);
+            alert("Token copied to clipboard ✅");
+          } else {
+            alert("Please allow notifications first!");
+          }
+        });
+      });
+    }
+  </script></body>
+</html>
